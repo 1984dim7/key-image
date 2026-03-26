@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="ja">
+<head>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6469478872018956"
+     crossorigin="anonymous"></script>
+
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>音楽的調性における色彩感覚と構造的考察</title>
+  <style>
+    :root {
+      --bg: #f2efe8;
+      --paper: #fffdf8;
+      --ink: #23211f;
+      --sub: #5b5650;
+      --line: #ddd4c7;
+      --accent: #8a4b2d;
+      --accent-2: #2e5a76;
+      --card: #faf6ee;
+      --shadow: 0 10px 26px rgba(42, 30, 16, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 110% -20%, #f7e7d1 0%, transparent 60%),
+        radial-gradient(900px 380px at -20% 10%, #e7f0f4 0%, transparent 60%),
+        var(--bg);
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+      line-height: 1.9;
+      letter-spacing: 0.02em;
+    }
+
+    .container {
+      width: min(980px, 92%);
+      margin: 24px auto 60px;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 0.95rem;
+      color: var(--sub);
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(20, 20, 20, 0.08);
+      border-color: #cbbca8;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .hero {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 28px 22px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.3rem, 2.2vw, 2rem);
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--sub);
+      font-size: 0.98rem;
+    }
+
+    article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 24px 20px;
+    }
+
+    section + section {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px dashed #d6ccb9;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      padding-left: 10px;
+      border-left: 5px solid var(--accent-2);
+    }
+
+    h3 {
+      margin: 14px 0 6px;
+      font-size: 1.02rem;
+    }
+
+    p { margin: 0 0 10px; }
+
+    .memo {
+      background: var(--card);
+      border: 1px solid #e6dbc8;
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 0.95rem;
+      color: #50463b;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-top: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+      background: #fff;
+      font-size: 0.94rem;
+    }
+
+    th, td {
+      padding: 10px 11px;
+      border-bottom: 1px solid #ebe4d8;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f6f1e7;
+      font-weight: 700;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    ul {
+      margin: 8px 0 0 1.2em;
+      padding: 0;
+    }
+
+    .clock {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .clock-box {
+      border: 1px solid #e3d8c8;
+      background: #fff;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 0.93rem;
+    }
+
+    .footer-nav {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .float-jump {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      display: grid;
+      gap: 8px;
+      z-index: 20;
+    }
+
+    .jump {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid #cfc1ad;
+      background: #fff;
+      color: #3a332c;
+      text-decoration: none;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      font-size: 1rem;
+    }
+
+    .jump:hover { background: #faf4ea; }
+
+    @media (max-width: 720px) {
+      .hero, article { padding: 20px 14px; }
+      .clock { grid-template-columns: 1fr; }
+      .btn { font-size: 0.86rem; }
+    }
+  </style>
+</head>
+<body id="top">
+  <div class="container">
+    <nav class="top-nav">
+      <div class="brand">個人ノート / 調性と色彩</div>
+      <div class="nav-buttons">
+        <a class="btn btn-primary" href="https://dim7.jp" target="_blank" rel="noopener noreferrer">dim7.jpへ戻る</a>
+        <a class="btn" href="#bottom">ページ下へ</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <h1>音楽的調性における色彩感覚と構造的考察</h1>
+      <p class="lead">
+        調性の印象は主観だけでなく、教育的刷り込み・倍音構造・楽器特性の重なりで形成される。
+        Cを基準に、感覚と言語化しやすい構造の対応をまとめる。
+      </p>
+    </header>
+
+    <article>
+      <section>
+        <h2>1. 各調性の色彩と心理イメージ</h2>
+        <p>以下は C を基準にした、実践的な聴感メモ。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>音名</th>
+                <th>色彩イメージ</th>
+                <th>心理的特性・印象</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>C</td><td>黄色系</td><td>素朴、標準的、印象が薄い日常性</td></tr>
+              <tr><td>C#</td><td>オレンジ</td><td>Cへの緊張感の付与</td></tr>
+              <tr><td>D</td><td>ピンク</td><td>明るい、爽やか、清々しい青空</td></tr>
+              <tr><td>D# / Eb</td><td>青緑</td><td>落ち着き、フラット系の恍惚感</td></tr>
+              <tr><td>E</td><td>緑</td><td>明るさと安定感の共存、柔らかい安心感</td></tr>
+              <tr><td>F</td><td>黄色</td><td>不動の安定感、耳馴染みの良さ</td></tr>
+              <tr><td>F# / Gb</td><td>紫</td><td>異世界感、トライトーンの緊張</td></tr>
+              <tr><td>G</td><td>緑・青</td><td>明るい、爽快感</td></tr>
+              <tr><td>G# / Ab</td><td>青紫</td><td>寒色系、落ち着き、センチメンタル</td></tr>
+              <tr><td>A</td><td>赤</td><td>Durでは最も明るい感覚、mollでは和の落ち着き</td></tr>
+              <tr><td>Bb</td><td>青</td><td>吹奏楽的、安堵感、深い落ち着き</td></tr>
+              <tr><td>B</td><td>青</td><td>Eに近い落ち着き、シャープ系の静謐さ</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>2. Cキー基準説</h2>
+        <p>
+          初期音楽教育は C Major に寄りやすく、白鍵7音が基準として定着しやすい。
+          そのため、臨時記号が増える調ほど「非日常」に感じやすくなる。
+        </p>
+        <div class="memo">印象は生得的なものだけでなく、反復経験で補正される。</div>
+      </section>
+
+      <section>
+        <h2>3. 五度圏を時計で捉える</h2>
+        <div class="clock">
+          <div class="clock-box"><strong>12時（C）</strong><br>日常、基準</div>
+          <div class="clock-box"><strong>3時（A方向）</strong><br>明るさの極致</div>
+          <div class="clock-box"><strong>6時（F#/Gb）</strong><br>非日常、異界</div>
+          <div class="clock-box"><strong>9時（Eb方向）</strong><br>暗さ、恍惚、内省</div>
+        </div>
+      </section>
+
+      <section>
+        <h2>4. モードとの相関</h2>
+        <h3>シャープ側（完全五度上）</h3>
+        <p>C→G→D→A と進むほど、リディアン的な上方感と明度が増しやすい。</p>
+        <h3>フラット側（完全四度上）</h3>
+        <p>C→F→Bb と進むと、音階内のフラット化が進み、内省的で沈静化した印象へ寄りやすい。</p>
+      </section>
+
+      <section>
+        <h2>5. 物理・音響学的背景</h2>
+        <ul>
+          <li>完全五度は低次倍音に現れやすく、純正で明るい知覚につながる。</li>
+          <li>完全四度は相対的に高次寄りで、五度進行より複雑な響きになりやすい。</li>
+          <li>弦楽器は開放弦共鳴によりシャープ側の輝きが出やすい。</li>
+          <li>管楽器は Bb / Eb 系が主流で、フラット側の安定感を引き出しやすい。</li>
+        </ul>
+      </section>
+    </article>
+
+    <div id="bottom" class="footer-nav">
+      <a class="btn btn-primary" href="https://dim7.jp" target="_blank" rel="noopener noreferrer">dim7.jpへ戻る</a>
+      <a class="btn" href="#top">ページ上へ</a>
+    </div>
+  </div>
+
+  <div class="float-jump" aria-label="ページ移動">
+    <a class="jump" href="#top" title="ページ上へ">↑</a>
+    <a class="jump" href="#bottom" title="ページ下へ">↓</a>
+  </div>
+</body>
+</html>
