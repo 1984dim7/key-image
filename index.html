@@ -6,57 +6,92 @@
         crossorigin="anonymous"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>音楽的調性における色彩感覚と構造的考察</title>
-    <!-- インターネットの歴史を感じるSegoe UIと、読みやすい明朝体をブレンド -->
+    <title>音楽的調性における色彩感覚と構造的考察 | dim7.jp</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 極太斜体のタイトル、デジタル/ストリート感あふれるフォント、および読みやすい明朝体のブレンド -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,900&family=Share+Tech+Mono&family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* トップページのFrutiger Aero背景用 */
-            --bg-top: #0082c8;
-            --bg-middle: #00c9ff;
-            --bg-bottom: #92fe9d;
-            
-            /* コラム本文（紙質感と墨文字で可読性を最優先） */
-            --bg: #f2efe8;
-            --paper: #fffdf8;
-            --ink: #1e1b19;
-            --sub: #4d4640;
-            --line: #e6dbcb;
-            --accent: #8a4b2d;
-            --accent-2: #2e5a76;
-            --card: #faf6ee;
-            --shadow: 0 10px 26px rgba(42, 30, 16, 0.08);
-
-            --aero-border-outer: rgba(255, 255, 255, 0.35);
-            --aero-border-inner: rgba(255, 255, 255, 0.55);
-            --aero-bg: rgba(255, 255, 255, 0.2);
+            --bg-color: #030306;
+            --text-color: #ffffff;
+            --text-muted: #8a8ca4;
+            --neon-purple: #a855f7;
+            --neon-purple-glow: rgba(168, 85, 247, 0.45);
+            --neon-cyan: #06b6d4;
+            --neon-cyan-glow: rgba(6, 182, 212, 0.3);
+            --chrome-silver: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 30%, #475569 50%, #94a3b8 70%, #f1f5f9 100%);
         }
 
         * {
             box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
             margin: 0;
-            color: var(--ink);
-            font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
-            line-height: 1.9;
-            letter-spacing: 0.02em;
-            /* トップページと共通のFrutiger Aero背景グラデーション */
-            background: linear-gradient(135deg, var(--bg-top) 0%, var(--bg-middle) 45%, var(--bg-bottom) 100%);
-            background-attachment: fixed;
+            padding: 0;
+        }
+
+        body, html {
+            min-height: 100vh;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            font-family: 'Share Tech Mono', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
         }
 
-        /* 浮遊するバブル（トップページと共通） */
-        .bubble-container {
+        /* サイバーグリッド背景 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* 巨大ネオングロー */
+        .cyber-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .glow-purple {
+            position: absolute;
+            top: 15%;
+            left: -10%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(168, 85, 247, 0) 70%);
+            filter: blur(100px);
+        }
+
+        .glow-cyan {
+            position: absolute;
+            bottom: 10%;
+            right: -10%;
+            width: 70%;
+            height: 70%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, rgba(6, 182, 212, 0) 70%);
+            filter: blur(120px);
+        }
+
+        /* ✦ キラキラ星の浮遊アニメーション */
+        .sparkle-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -67,42 +102,82 @@
             overflow: hidden;
         }
 
-        .bubble {
+        .sparkle {
             position: absolute;
-            bottom: -100px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 40%, rgba(0, 180, 216, 0.02) 60%, rgba(255, 255, 255, 0.25) 80%, transparent 100%);
-            box-shadow: 
-                inset 0 0 12px rgba(255, 255, 255, 0.5),
-                inset -3px -3px 8px rgba(0, 180, 216, 0.15),
-                0 5px 15px rgba(0, 0, 0, 0.06);
-            animation: floatUp 20s infinite linear;
+            bottom: -50px;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.3);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: floatUp 15s infinite linear;
         }
 
-        .bubble-1 { width: 70px; height: 70px; left: 8%; animation-duration: 22s; animation-delay: 0s; }
-        .bubble-2 { width: 45px; height: 45px; left: 20%; animation-duration: 18s; animation-delay: 4s; }
-        .bubble-3 { width: 100px; height: 100px; left: 50%; animation-duration: 26s; animation-delay: 1s; }
-        .bubble-4 { width: 35px; height: 35px; left: 70%; animation-duration: 15s; animation-delay: 6s; }
-        .bubble-5 { width: 80px; height: 80px; left: 85%; animation-duration: 24s; animation-delay: 2s; }
+        .sparkle-1 { left: 15%; animation-duration: 18s; animation-delay: 0s; }
+        .sparkle-2 { left: 35%; animation-duration: 22s; animation-delay: 3s; }
+        .sparkle-3 { left: 60%; animation-duration: 14s; animation-delay: 1s; }
+        .sparkle-4 { left: 80%; animation-duration: 20s; animation-delay: 5s; }
 
         @keyframes floatUp {
             0% {
-                transform: translateY(0) translateX(0) rotate(0deg);
+                transform: translateY(0) rotate(0deg) scale(0.6);
                 opacity: 0;
             }
-            5% { opacity: 0.8; }
-            95% { opacity: 0.8; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
             100% {
-                transform: translateY(-120vh) translateX(50px) rotate(360deg);
+                transform: translateY(-110vh) rotate(180deg) scale(1.1);
                 opacity: 0;
             }
+        }
+
+        /* 左右のサイバーポスター装飾サイドバー */
+        .side-decor {
+            position: fixed;
+            top: 0;
+            height: 100vh;
+            width: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0;
+            z-index: 5;
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            pointer-events: none;
+        }
+
+        .side-decor-left {
+            left: 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .side-decor-right {
+            right: 20px;
+            border-left: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .side-vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            text-transform: uppercase;
+        }
+
+        .side-cities span {
+            display: block;
+            margin: 15px 0;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
         }
 
         .container {
             width: min(900px, 92%);
-            margin: 24px auto 60px;
+            margin: 40px auto 80px;
             position: relative;
             z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
 
         /* ナビゲーション */
@@ -110,238 +185,323 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 16px;
+            margin-bottom: 10px;
             flex-wrap: wrap;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 16px;
         }
 
         .brand {
-            font-family: 'Segoe UI', 'Meiryo', sans-serif;
-            font-size: 0.95rem;
+            font-family: 'Share Tech Mono', sans-serif;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #ffffff;
-            letter-spacing: 0.05em;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.08em;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         .nav-buttons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
-        /* ぷっくりグロスボタン */
+        /* サイバーボタン */
         .btn {
-            display: inline-block;
-            padding: 8px 18px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            background: linear-gradient(to bottom, #ffffff 0%, #e6ecef 100%);
-            color: #005682;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 20px;
+            border-radius: 4px;
             text-decoration: none;
-            font-family: 'Segoe UI', 'Meiryo', sans-serif;
-            font-size: 0.9rem;
+            font-family: 'Share Tech Mono', sans-serif;
+            font-size: 0.82rem;
             font-weight: 700;
-            box-shadow: 
-                0 4px 10px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 #ffffff,
-                inset 0 -2px 0 rgba(0, 0, 0, 0.05);
-            text-shadow: 0 1px 0 #ffffff;
-            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            letter-spacing: 0.08em;
+            transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+            text-shadow: 0 0 5px rgba(255,255,255,0.3);
         }
 
-        .btn:hover {
-            transform: translateY(-1px);
-            background: linear-gradient(to bottom, #ffffff 0%, #f3f7f9 100%);
+        .btn-normal {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-normal:hover {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: var(--neon-cyan);
             box-shadow: 
-                0 6px 14px rgba(0, 0, 0, 0.15),
-                0 0 8px rgba(255, 255, 255, 0.5),
-                inset 0 1px 0 #ffffff;
-            border-color: rgba(255,255,255,1);
+                0 0 15px var(--neon-cyan-glow),
+                0 4px 12px rgba(6, 182, 212, 0.2);
+            transform: translateY(-1px);
         }
 
         .btn-primary {
-            background: linear-gradient(to bottom, #8ac5ec 0%, #307fb5 100%);
-            border-color: rgba(255, 255, 255, 0.5);
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: #ffffff;
-            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
             box-shadow: 
-                0 4px 10px rgba(8, 26, 54, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+                0 4px 15px rgba(124, 58, 237, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .btn-primary:hover {
-            background: linear-gradient(to bottom, #9fd5fc 0%, #3a8ec7 100%);
+            background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
             box-shadow: 
-                0 6px 14px rgba(8, 26, 54, 0.25),
-                0 0 8px rgba(255, 255, 255, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+                0 0 20px var(--neon-purple-glow),
+                0 4px 15px rgba(168, 85, 247, 0.4);
+            transform: translateY(-1px);
         }
 
-        /* Aero Glass 二重枠フレーム */
+        /* 液体金属（クローム）＆ネオンの境界枠 */
         .glass-borders {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid var(--aero-border-outer);
-            border-radius: 24px;
-            padding: 4px;
+            background: rgba(168, 85, 247, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 3px;
             box-shadow: 
-                0 10px 30px rgba(8, 26, 54, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.35);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            margin-bottom: 24px;
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                0 0 15px rgba(168, 85, 247, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .glass-borders:hover {
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.6),
+                0 0 25px var(--neon-purple-glow);
         }
 
         /* ヘッダーエリア */
         .hero {
-            background: var(--paper);
-            border: 1px solid var(--aero-border-inner);
-            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(15, 10, 25, 0.8) 0%, rgba(5, 5, 10, 0.95) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            border-radius: 9px;
             padding: 36px 30px;
-            box-shadow: var(--shadow);
-            color: var(--ink);
-            text-shadow: none;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
         }
 
         h1 {
-            margin: 0 0 12px;
+            margin: 0 0 16px;
             font-size: clamp(1.4rem, 2.5vw, 2.1rem);
             line-height: 1.45;
             font-weight: 700;
-            border-bottom: 1px solid var(--line);
-            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 16px;
+            color: #ffffff;
+            font-family: 'Noto Sans JP', sans-serif;
         }
 
         .lead {
             margin: 0;
-            color: var(--sub);
+            color: var(--text-muted);
             font-size: 0.98rem;
             line-height: 1.7;
+            font-family: 'Noto Sans JP', sans-serif;
         }
 
         /* コラム本体 */
         article {
-            background: var(--paper);
-            border: 1px solid var(--aero-border-inner);
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            padding: 32px 30px;
-            color: var(--ink);
-            text-shadow: none;
+            background: linear-gradient(135deg, rgba(10, 10, 18, 0.95) 0%, rgba(5, 5, 8, 0.98) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            border-radius: 9px;
+            padding: 36px 30px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            color: #f3f4f6;
         }
 
         section + section {
-            margin-top: 30px;
-            padding-top: 24px;
-            border-top: 1px dashed var(--line);
+            margin-top: 36px;
+            padding-top: 28px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
         }
 
         h2 {
-            margin: 0 0 16px;
-            font-size: 1.25rem;
+            margin: 0 0 20px;
+            font-size: 1.3rem;
             line-height: 1.5;
             padding-left: 12px;
-            border-left: 5px solid var(--accent-2);
-            color: #003e65; /* 上品な深い青 */
+            border-left: 4px solid var(--neon-cyan);
+            color: #ffffff;
+            font-family: 'Noto Sans JP', sans-serif;
+            text-shadow: 0 0 8px var(--neon-cyan-glow);
         }
 
         h3 {
-            margin: 18px 0 8px;
-            font-size: 1.05rem;
-            color: var(--accent);
+            margin: 22px 0 10px;
+            font-size: 1.1rem;
+            color: var(--neon-purple);
+            font-family: 'Noto Sans JP', sans-serif;
+            text-shadow: 0 0 8px var(--neon-purple-glow);
         }
 
-        p {
-            margin: 0 0 14px;
+        article p, article li {
+            font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+            line-height: 1.9;
+            letter-spacing: 0.03em;
+            font-size: 0.98rem;
+            margin-bottom: 16px;
         }
 
+        /* システムメッセージ風メモ */
         .memo {
-            background: var(--card);
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            padding: 14px 16px;
-            font-size: 0.95rem;
-            color: #483f36;
-            margin: 16px 0;
+            background: rgba(168, 85, 247, 0.05);
+            border: 1px dashed rgba(168, 85, 247, 0.4);
+            border-left: 4px solid var(--neon-purple);
+            border-radius: 4px;
+            padding: 16px 20px;
+            font-size: 0.92rem;
+            color: #e2e8f0;
+            margin: 20px 0;
+            font-family: 'Noto Sans JP', sans-serif;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
 
+        .memo::before {
+            content: '// SYSTEM NOTICE';
+            display: block;
+            font-size: 0.65rem;
+            font-family: 'Share Tech Mono', sans-serif;
+            color: var(--neon-purple);
+            margin-bottom: 6px;
+            letter-spacing: 0.05em;
+        }
+
+        /* サイバーテーブル */
         .table-wrap {
             overflow-x: auto;
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            margin: 16px 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             min-width: 600px;
-            background: #ffffff;
-            font-size: 0.94rem;
+            background: rgba(10, 10, 15, 0.6);
+            font-size: 0.92rem;
+            color: #e2e8f0;
         }
 
         th, td {
-            padding: 12px 14px;
-            border-bottom: 1px solid #f2ece3;
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             text-align: left;
         }
 
         th {
-            background: #faf6ee;
+            background: rgba(168, 85, 247, 0.05);
             font-weight: 700;
-            color: var(--sub);
-            border-bottom: 2px solid var(--line);
+            color: var(--neon-cyan);
+            border-bottom: 2px solid rgba(168, 85, 247, 0.3);
+            font-family: 'Noto Sans JP', sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
         }
 
         tr:last-child td {
             border-bottom: none;
         }
 
+        /* カラーバッジ */
+        .color-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: 'Noto Sans JP', sans-serif;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge-yellow { color: #facc15; text-shadow: 0 0 8px rgba(250, 204, 21, 0.4); border-color: rgba(250, 204, 21, 0.2); }
+        .badge-orange { color: #fb923c; text-shadow: 0 0 8px rgba(251, 146, 60, 0.4); border-color: rgba(251, 146, 60, 0.2); }
+        .badge-pink { color: #f472b6; text-shadow: 0 0 8px rgba(244, 114, 182, 0.4); border-color: rgba(244, 114, 182, 0.2); }
+        .badge-cyan { color: #22d3ee; text-shadow: 0 0 8px rgba(34, 211, 238, 0.4); border-color: rgba(34, 211, 238, 0.2); }
+        .badge-green { color: #4ade80; text-shadow: 0 0 8px rgba(74, 222, 128, 0.4); border-color: rgba(74, 222, 128, 0.2); }
+        .badge-purple { color: #c084fc; text-shadow: 0 0 8px rgba(192, 132, 252, 0.4); border-color: rgba(192, 132, 252, 0.2); }
+        .badge-green-blue { color: #2dd4bf; text-shadow: 0 0 8px rgba(45, 212, 191, 0.4); border-color: rgba(45, 212, 191, 0.2); }
+        .badge-purple-blue { color: #818cf8; text-shadow: 0 0 8px rgba(129, 140, 248, 0.4); border-color: rgba(129, 140, 248, 0.2); }
+        .badge-red { color: #f87171; text-shadow: 0 0 8px rgba(248, 113, 113, 0.4); border-color: rgba(248, 113, 113, 0.2); }
+        .badge-blue { color: #60a5fa; text-shadow: 0 0 8px rgba(96, 165, 250, 0.4); border-color: rgba(96, 165, 250, 0.2); }
+
         ul {
-            margin: 8px 0 14px 1.4em;
+            margin: 8px 0 16px 1.4em;
             padding: 0;
         }
 
         li {
-            margin-bottom: 6px;
+            margin-bottom: 8px;
+            font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
         }
 
+        /* サイバークロックグリッド */
         .clock {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px;
-            margin: 16px 0;
+            gap: 16px;
+            margin: 20px 0;
         }
 
         .clock-box {
-            border: 1px solid var(--line);
-            background: var(--card);
-            border-radius: 12px;
-            padding: 14px 16px;
-            font-size: 0.93rem;
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            background: linear-gradient(135deg, rgba(15, 10, 25, 0.7) 0%, rgba(5, 5, 10, 0.9) 100%);
+            border-radius: 6px;
+            padding: 16px 18px;
+            font-size: 0.9rem;
             line-height: 1.6;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
         .clock-box strong {
-            color: var(--accent-2);
+            color: var(--neon-cyan);
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
+            font-family: 'Share Tech Mono', 'Noto Sans JP', sans-serif;
+            font-size: 1rem;
+            text-shadow: 0 0 6px var(--neon-cyan-glow);
+        }
+
+        .clock-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--neon-purple);
+            box-shadow: 0 0 8px var(--neon-purple-glow);
+            border-radius: 6px 0 0 6px;
         }
 
         .footer-nav {
             margin-top: 24px;
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 16px;
             flex-wrap: wrap;
         }
 
         /* 浮遊するジャンプボタン */
         .float-jump {
             position: fixed;
-            right: 18px;
-            bottom: 18px;
+            right: 24px;
+            bottom: 24px;
             display: grid;
             gap: 8px;
             z-index: 20;
@@ -352,31 +512,40 @@
             height: 44px;
             display: grid;
             place-items: center;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            background: linear-gradient(to bottom, #ffffff 0%, #e6ecef 100%);
-            color: #005682;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(10, 10, 15, 0.8);
+            color: #ffffff;
             text-decoration: none;
             box-shadow: 
-                0 4px 12px rgba(8, 26, 54, 0.15),
-                inset 0 1px 0 #ffffff;
+                0 4px 15px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            font-family: 'Share Tech Mono', sans-serif;
             font-size: 1.1rem;
             font-weight: 700;
-            text-shadow: 0 1px 0 #ffffff;
-            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
         .jump:hover {
-            background: linear-gradient(to bottom, #ffffff 0%, #f3f7f9 100%);
+            background: rgba(168, 85, 247, 0.15);
+            border-color: var(--neon-purple);
             box-shadow: 
-                0 6px 16px rgba(8, 26, 54, 0.25),
-                0 0 8px rgba(255, 255, 255, 0.5);
-            transform: translateY(-1px);
+                0 0 15px var(--neon-purple-glow),
+                0 4px 12px rgba(168, 85, 247, 0.3);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 900px) {
+            .side-decor {
+                display: none; /* スマホやタブレットではサイド装飾を非表示 */
+            }
         }
 
         @media (max-width: 720px) {
             .hero, article {
-                padding: 24px 16px;
+                padding: 24px 20px;
             }
 
             .clock {
@@ -384,33 +553,60 @@
             }
 
             .btn {
-                font-size: 0.86rem;
-                padding: 7px 14px;
+                font-size: 0.78rem;
+                padding: 8px 16px;
+            }
+            
+            .container {
+                margin: 20px auto 60px;
             }
         }
     </style>
 </head>
 
 <body id="top">
-    <!-- 浮遊バブル（Aeroテイスト） -->
-    <div class="bubble-container">
-        <div class="bubble bubble-1"></div>
-        <div class="bubble bubble-2"></div>
-        <div class="bubble bubble-3"></div>
-        <div class="bubble bubble-4"></div>
-        <div class="bubble bubble-5"></div>
+    <!-- 巨大ネオングロー -->
+    <div class="cyber-glow">
+        <div class="glow-purple"></div>
+        <div class="glow-cyan"></div>
+    </div>
+
+    <!-- ✦ キラキラ星の浮遊アニメーション -->
+    <div class="sparkle-container">
+        <div class="sparkle sparkle-1">✦</div>
+        <div class="sparkle sparkle-2">✦</div>
+        <div class="sparkle sparkle-3">✦</div>
+        <div class="sparkle sparkle-4">✦</div>
+    </div>
+
+    <!-- 左右のサイバーポスター装飾サイドバー（PC時） -->
+    <div class="side-decor side-decor-left">
+        <div class="side-vertical-text">SYS.STATUS // ANALYZED</div>
+        <div class="side-cities">
+            <span>KEY</span>
+            <span>TONALITY</span>
+            <span>COLOR</span>
+            <span>MODE</span>
+        </div>
+        <div>EST.2004</div>
+    </div>
+    
+    <div class="side-decor side-decor-right">
+        <div>DATEL ENG.</div>
+        <div class="side-vertical-text">PITCH SYSTEM // UNDER ANALYSIS</div>
+        <div>✦ ✦ ✦</div>
     </div>
 
     <div class="container">
         <nav class="top-nav">
-            <div class="brand">個人ノート / 調性と色彩</div>
+            <div class="brand">NOTE / KEY & COLOR</div>
             <div class="nav-buttons">
                 <a class="btn btn-primary" href="https://dim7.jp">dim7.jpへ戻る</a>
-                <a class="btn" href="#bottom">ページ下へ</a>
+                <a class="btn btn-normal" href="#bottom">ページ下へ</a>
             </div>
         </nav>
 
-        <!-- ヘッダー (Aero Glass二重枠) -->
+        <!-- ヘッダー (Aero Glass二重枠 -> クローム＆ネオン二重枠) -->
         <div class="glass-borders">
             <header class="hero">
                 <h1>音楽的調性における色彩感覚と構造的考察</h1>
@@ -421,7 +617,7 @@
             </header>
         </div>
 
-        <!-- 記事本体 (Aero Glass二重枠) -->
+        <!-- 記事本体 (Aero Glass二重枠 -> クローム＆ネオン二重枠) -->
         <div class="glass-borders">
             <article>
                 <section>
@@ -439,62 +635,62 @@
                             <tbody>
                                 <tr>
                                     <td>C</td>
-                                    <td>黄色系</td>
+                                    <td><span class="color-badge badge-yellow">黄色系</span></td>
                                     <td>素朴、標準的、印象が薄い日常性</td>
                                 </tr>
                                 <tr>
                                     <td>C#</td>
-                                    <td>オレンジ</td>
+                                    <td><span class="color-badge badge-orange">オレンジ</span></td>
                                     <td>Cへの緊張感の付与</td>
                                 </tr>
                                 <tr>
                                     <td>D</td>
-                                    <td>ピンク</td>
+                                    <td><span class="color-badge badge-pink">ピンク</span></td>
                                     <td>明るい、爽やか、清々しい青空</td>
                                 </tr>
                                 <tr>
                                     <td>D# / Eb</td>
-                                    <td>青緑</td>
+                                    <td><span class="color-badge badge-cyan">青緑</span></td>
                                     <td>落ち着き、フラット系の恍惚感</td>
                                 </tr>
                                 <tr>
                                     <td>E</td>
-                                    <td>緑</td>
+                                    <td><span class="color-badge badge-green">緑</span></td>
                                     <td>明るさと安定感の共存、柔らかい安心感</td>
                                 </tr>
                                 <tr>
                                     <td>F</td>
-                                    <td>黄色</td>
+                                    <td><span class="color-badge badge-yellow">黄色</span></td>
                                     <td>不動の安定感、耳馴染みの良さ</td>
                                 </tr>
                                 <tr>
                                     <td>F# / Gb</td>
-                                    <td>紫</td>
+                                    <td><span class="color-badge badge-purple">紫</span></td>
                                     <td>異世界感、トライトーンの緊張</td>
                                 </tr>
                                 <tr>
                                     <td>G</td>
-                                    <td>緑・青</td>
+                                    <td><span class="color-badge badge-green-blue">緑・青</span></td>
                                     <td>明るい、爽快感</td>
                                 </tr>
                                 <tr>
                                     <td>G# / Ab</td>
-                                    <td>青紫</td>
+                                    <td><span class="color-badge badge-purple-blue">青紫</span></td>
                                     <td>寒色系、落ち着き、センチメンタル</td>
                                 </tr>
                                 <tr>
                                     <td>A</td>
-                                    <td>赤</td>
+                                    <td><span class="color-badge badge-red">赤</span></td>
                                     <td>Durでは最も明るい感覚、mollでは和の落ち着き</td>
                                 </tr>
                                 <tr>
                                     <td>Bb</td>
-                                    <td>青</td>
+                                    <td><span class="color-badge badge-blue">青</span></td>
                                     <td>吹奏楽的、安堵感、深い落ち着き</td>
                                 </tr>
                                 <tr>
                                     <td>B</td>
-                                    <td>青</td>
+                                    <td><span class="color-badge badge-blue">青</span></td>
                                     <td>Eに近い落ち着き、シャープ系の静謐さ</td>
                                 </tr>
                             </tbody>
@@ -543,7 +739,7 @@
 
         <div id="bottom" class="footer-nav">
             <a class="btn btn-primary" href="https://dim7.jp">dim7.jpへ戻る</a>
-            <a class="btn" href="#top">ページ上へ</a>
+            <a class="btn btn-normal" href="#top">ページ上へ</a>
         </div>
     </div>
 
