@@ -9,18 +9,22 @@
     <title>音楽的調性における色彩感覚と構造的考察 | dim7.jp</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- 極太斜体のタイトル、デジタル/ストリート感あふれるフォント、および読みやすい明朝体のブレンド -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,900&family=Share+Tech+Mono&family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Wii風の丸っこいフォントと、読みやすい明朝体のブレンド -->
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Share+Tech+Mono&family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #030306;
-            --text-color: #ffffff;
-            --text-muted: #8a8ca4;
-            --neon-purple: #a855f7;
-            --neon-purple-glow: rgba(168, 85, 247, 0.45);
-            --neon-cyan: #06b6d4;
-            --neon-cyan-glow: rgba(6, 182, 212, 0.3);
-            --chrome-silver: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 30%, #475569 50%, #94a3b8 70%, #f1f5f9 100%);
+            --bg-color-center: #f0f3f6;
+            --bg-color-edge: #d8dee4;
+            --text-color: #3b3e44;
+            --text-muted: #70757f;
+            --wii-blue: #00b0ff;
+            --wii-blue-glow: rgba(0, 176, 255, 0.35);
+            --wii-gray: #e6e9ed;
+            --wii-border: #ccd1d9;
+            --panel-bg: #ffffff;
+            --panel-shadow: 
+                0 6px 16px rgba(0, 0, 0, 0.05),
+                0 1px 3px rgba(0, 0, 0, 0.02);
         }
 
         * {
@@ -32,8 +36,9 @@
         body, html {
             min-height: 100vh;
             color: var(--text-color);
-            background-color: var(--bg-color);
-            font-family: 'Share Tech Mono', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(circle, var(--bg-color-center) 0%, var(--bg-color-edge) 100%);
+            background-attachment: fixed;
+            font-family: 'Comfortaa', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
@@ -42,7 +47,7 @@
             position: relative;
         }
 
-        /* サイバーグリッド背景 */
+        /* Wiiメニュー風ドットパターン */
         body::before {
             content: '';
             position: fixed;
@@ -50,48 +55,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-image: radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 16px 16px;
             z-index: 0;
             pointer-events: none;
         }
 
-        /* 巨大ネオングロー */
-        .cyber-glow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .glow-purple {
-            position: absolute;
-            top: 15%;
-            left: -10%;
-            width: 60%;
-            height: 60%;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(168, 85, 247, 0) 70%);
-            filter: blur(100px);
-        }
-
-        .glow-cyan {
-            position: absolute;
-            bottom: 10%;
-            right: -10%;
-            width: 70%;
-            height: 70%;
-            background: radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, rgba(6, 182, 212, 0) 70%);
-            filter: blur(120px);
-        }
-
-        /* ✦ キラキラ星の浮遊アニメーション */
-        .sparkle-container {
+        /* 浮遊するWii風オーブ */
+        .wii-orb-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -102,72 +73,22 @@
             overflow: hidden;
         }
 
-        .sparkle {
+        .wii-orb {
             position: absolute;
-            bottom: -50px;
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.3);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-            animation: floatUp 15s infinite linear;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            animation: wiiFloat 20s infinite ease-in-out;
+            opacity: 0.5;
         }
 
-        .sparkle-1 { left: 15%; animation-duration: 18s; animation-delay: 0s; }
-        .sparkle-2 { left: 35%; animation-duration: 22s; animation-delay: 3s; }
-        .sparkle-3 { left: 60%; animation-duration: 14s; animation-delay: 1s; }
-        .sparkle-4 { left: 80%; animation-duration: 20s; animation-delay: 5s; }
+        .wii-orb-1 { width: 120px; height: 120px; left: 10%; top: 20%; animation-duration: 25s; }
+        .wii-orb-2 { width: 80px; height: 80px; right: 15%; top: 10%; animation-duration: 18s; }
+        .wii-orb-3 { width: 150px; height: 150px; left: 40%; bottom: 15%; animation-duration: 30s; }
 
-        @keyframes floatUp {
-            0% {
-                transform: translateY(0) rotate(0deg) scale(0.6);
-                opacity: 0;
-            }
-            10% { opacity: 0.7; }
-            90% { opacity: 0.7; }
-            100% {
-                transform: translateY(-110vh) rotate(180deg) scale(1.1);
-                opacity: 0;
-            }
-        }
-
-        /* 左右のサイバーポスター装飾サイドバー */
-        .side-decor {
-            position: fixed;
-            top: 0;
-            height: 100vh;
-            width: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            padding: 40px 0;
-            z-index: 5;
-            color: rgba(255, 255, 255, 0.15);
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            pointer-events: none;
-        }
-
-        .side-decor-left {
-            left: 20px;
-            border-right: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .side-decor-right {
-            right: 20px;
-            border-left: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .side-vertical-text {
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            text-transform: uppercase;
-        }
-
-        .side-cities span {
-            display: block;
-            margin: 15px 0;
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
+        @keyframes wiiFloat {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-30px) translateX(20px); }
         }
 
         .container {
@@ -188,17 +109,17 @@
             gap: 16px;
             margin-bottom: 10px;
             flex-wrap: wrap;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 2px solid var(--wii-border);
             padding-bottom: 16px;
         }
 
         .brand {
-            font-family: 'Share Tech Mono', sans-serif;
+            font-family: 'Comfortaa', sans-serif;
             font-size: 1.1rem;
             font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 0.08em;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            color: #585d68;
+            letter-spacing: 0.02em;
+            text-shadow: 0 1px 1px #ffffff;
         }
 
         .nav-buttons {
@@ -207,87 +128,89 @@
             flex-wrap: wrap;
         }
 
-        /* サイバーボタン */
+        /* Wii風角丸ボタン */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 8px 20px;
-            border-radius: 4px;
+            padding: 8px 22px;
+            border-radius: 25px;
             text-decoration: none;
-            font-family: 'Share Tech Mono', sans-serif;
+            font-family: 'Comfortaa', 'Noto Sans JP', sans-serif;
             font-size: 0.82rem;
             font-weight: 700;
-            letter-spacing: 0.08em;
-            transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transition: all 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
             cursor: pointer;
-            text-shadow: 0 0 5px rgba(255,255,255,0.3);
+            box-shadow: 
+                0 3px 6px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 #ffffff;
         }
 
         .btn-normal {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            background: #ffffff;
+            border: 2px solid var(--wii-border);
+            color: var(--text-color);
         }
 
         .btn-normal:hover {
-            background: rgba(6, 182, 212, 0.1);
-            border-color: var(--neon-cyan);
+            border-color: var(--wii-blue);
+            color: var(--wii-blue);
             box-shadow: 
-                0 0 15px var(--neon-cyan-glow),
-                0 4px 12px rgba(6, 182, 212, 0.2);
+                0 5px 12px rgba(0, 176, 255, 0.15),
+                0 0 8px var(--wii-blue-glow);
             transform: translateY(-1px);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: #ffffff;
+            background: #ffffff;
+            border: 2px solid var(--wii-blue);
+            color: var(--wii-blue);
             box-shadow: 
-                0 4px 15px rgba(124, 58, 237, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                0 3px 8px rgba(0, 176, 255, 0.1),
+                inset 0 1px 0 #ffffff;
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+            background: var(--wii-blue);
+            color: #ffffff;
             box-shadow: 
-                0 0 20px var(--neon-purple-glow),
-                0 4px 15px rgba(168, 85, 247, 0.4);
+                0 6px 14px rgba(0, 176, 255, 0.2),
+                0 0 8px var(--wii-blue-glow);
             transform: translateY(-1px);
         }
 
-        /* 液体金属（クローム）＆ネオンの境界枠 */
+        /* Wii設定パネル風 二重枠フレーム */
         .glass-borders {
-            background: rgba(168, 85, 247, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
+            background: #ffffff;
+            border: 2px solid #ffffff;
+            border-radius: 24px;
             padding: 3px;
-            box-shadow: 
-                0 10px 30px rgba(0, 0, 0, 0.5),
-                0 0 15px rgba(168, 85, 247, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: var(--panel-shadow);
+            transition: all 0.2s ease;
         }
 
         .glass-borders:hover {
-            border-color: rgba(255, 255, 255, 0.25);
             box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.6),
-                0 0 25px var(--neon-purple-glow);
+                0 10px 24px rgba(0, 0, 0, 0.08),
+                0 0 10px rgba(0, 0, 0, 0.02);
         }
 
         /* ヘッダーエリア */
         .hero {
-            background: linear-gradient(135deg, rgba(15, 10, 25, 0.8) 0%, rgba(5, 5, 10, 0.95) 100%);
-            border: 1px solid rgba(168, 85, 247, 0.25);
-            border-radius: 9px;
+            background: var(--panel-bg);
+            border: 1px solid var(--wii-border);
+            border-radius: 20px;
             padding: 36px 30px;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
             position: relative;
             overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 50%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+            pointer-events: none;
         }
 
         h1 {
@@ -295,10 +218,10 @@
             font-size: clamp(1.4rem, 2.5vw, 2.1rem);
             line-height: 1.45;
             font-weight: 700;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 2px solid var(--wii-gray);
             padding-bottom: 16px;
-            color: #ffffff;
-            font-family: 'Noto Sans JP', sans-serif;
+            color: var(--text-color);
+            font-family: 'Comfortaa', 'Noto Sans JP', sans-serif;
         }
 
         .lead {
@@ -309,137 +232,142 @@
             font-family: 'Noto Sans JP', sans-serif;
         }
 
-        /* コラム本体 */
+        /* 記事本体 */
         article {
-            background: linear-gradient(135deg, rgba(10, 10, 18, 0.95) 0%, rgba(5, 5, 8, 0.98) 100%);
-            border: 1px solid rgba(168, 85, 247, 0.25);
-            border-radius: 9px;
+            background: var(--panel-bg);
+            border: 1px solid var(--wii-border);
+            border-radius: 20px;
             padding: 36px 30px;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            color: #f3f4f6;
+            color: var(--text-color);
         }
 
         section + section {
             margin-top: 36px;
             padding-top: 28px;
-            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            border-top: 2px solid var(--wii-gray);
         }
 
         h2 {
             margin: 0 0 20px;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             line-height: 1.5;
             padding-left: 12px;
-            border-left: 4px solid var(--neon-cyan);
-            color: #ffffff;
-            font-family: 'Noto Sans JP', sans-serif;
-            text-shadow: 0 0 8px var(--neon-cyan-glow);
+            border-left: 5px solid var(--wii-blue);
+            color: var(--text-color);
+            font-family: 'Comfortaa', 'Noto Sans JP', sans-serif;
         }
 
         h3 {
             margin: 22px 0 10px;
-            font-size: 1.1rem;
-            color: var(--neon-purple);
-            font-family: 'Noto Sans JP', sans-serif;
-            text-shadow: 0 0 8px var(--neon-purple-glow);
+            font-size: 1.05rem;
+            color: var(--wii-blue);
+            font-family: 'Comfortaa', 'Noto Sans JP', sans-serif;
         }
 
         article p, article li {
             font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
             line-height: 1.9;
-            letter-spacing: 0.03em;
+            letter-spacing: 0.02em;
             font-size: 0.98rem;
             margin-bottom: 16px;
         }
 
-        /* システムメッセージ風メモ */
+        /* Wiiの間・システム警告風メッセージ */
         .memo {
-            background: rgba(168, 85, 247, 0.05);
-            border: 1px dashed rgba(168, 85, 247, 0.4);
-            border-left: 4px solid var(--neon-purple);
-            border-radius: 4px;
-            padding: 16px 20px;
+            background: #f5f7fa;
+            border: 1px solid var(--wii-border);
+            border-radius: 12px;
+            padding: 18px 20px;
             font-size: 0.92rem;
-            color: #e2e8f0;
+            color: var(--text-color);
             margin: 20px 0;
             font-family: 'Noto Sans JP', sans-serif;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
             position: relative;
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
 
         .memo::before {
-            content: '// SYSTEM NOTICE';
-            display: block;
-            font-size: 0.65rem;
-            font-family: 'Share Tech Mono', sans-serif;
-            color: var(--neon-purple);
-            margin-bottom: 6px;
-            letter-spacing: 0.05em;
+            content: 'i';
+            width: 24px;
+            height: 24px;
+            background: var(--wii-blue);
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+            box-shadow: 0 1px 3px rgba(0, 176, 255, 0.2);
         }
 
-        /* サイバーテーブル */
+        /* Wiiオプションテーブル */
         .table-wrap {
             overflow-x: auto;
-            border: 1px solid rgba(168, 85, 247, 0.2);
-            border-radius: 8px;
+            border: 1px solid var(--wii-border);
+            border-radius: 12px;
             margin: 20px 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.02);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             min-width: 600px;
-            background: rgba(10, 10, 15, 0.6);
+            background: #ffffff;
             font-size: 0.92rem;
-            color: #e2e8f0;
+            color: var(--text-color);
         }
 
         th, td {
             padding: 14px 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--wii-gray);
             text-align: left;
         }
 
         th {
-            background: rgba(168, 85, 247, 0.05);
+            background: #fafbfc;
             font-weight: 700;
-            color: var(--neon-cyan);
-            border-bottom: 2px solid rgba(168, 85, 247, 0.3);
+            color: #585d68;
+            border-bottom: 2px solid var(--wii-border);
             font-family: 'Noto Sans JP', sans-serif;
-            letter-spacing: 0.05em;
         }
 
         tr:hover td {
-            background: rgba(255, 255, 255, 0.02);
+            background: #fafbfc;
         }
 
         tr:last-child td {
             border-bottom: none;
         }
 
-        /* カラーバッジ */
+        /* ソフトなWii風カラーバッジ */
         .color-badge {
             display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.85rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.82rem;
             font-weight: 700;
             font-family: 'Noto Sans JP', sans-serif;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.02);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .badge-yellow { color: #facc15; text-shadow: 0 0 8px rgba(250, 204, 21, 0.4); border-color: rgba(250, 204, 21, 0.2); }
-        .badge-orange { color: #fb923c; text-shadow: 0 0 8px rgba(251, 146, 60, 0.4); border-color: rgba(251, 146, 60, 0.2); }
-        .badge-pink { color: #f472b6; text-shadow: 0 0 8px rgba(244, 114, 182, 0.4); border-color: rgba(244, 114, 182, 0.2); }
-        .badge-cyan { color: #22d3ee; text-shadow: 0 0 8px rgba(34, 211, 238, 0.4); border-color: rgba(34, 211, 238, 0.2); }
-        .badge-green { color: #4ade80; text-shadow: 0 0 8px rgba(74, 222, 128, 0.4); border-color: rgba(74, 222, 128, 0.2); }
-        .badge-purple { color: #c084fc; text-shadow: 0 0 8px rgba(192, 132, 252, 0.4); border-color: rgba(192, 132, 252, 0.2); }
-        .badge-green-blue { color: #2dd4bf; text-shadow: 0 0 8px rgba(45, 212, 191, 0.4); border-color: rgba(45, 212, 191, 0.2); }
-        .badge-purple-blue { color: #818cf8; text-shadow: 0 0 8px rgba(129, 140, 248, 0.4); border-color: rgba(129, 140, 248, 0.2); }
-        .badge-red { color: #f87171; text-shadow: 0 0 8px rgba(248, 113, 113, 0.4); border-color: rgba(248, 113, 113, 0.2); }
-        .badge-blue { color: #60a5fa; text-shadow: 0 0 8px rgba(96, 165, 250, 0.4); border-color: rgba(96, 165, 250, 0.2); }
+        .badge-yellow { background-color: #fff9db; color: #f0a000; }
+        .badge-orange { background-color: #ffe8cc; color: #e8590c; }
+        .badge-pink { background-color: #fff0f6; color: #d6336c; }
+        .badge-cyan { background-color: #e3faf2; color: #0ca678; }
+        .badge-green { background-color: #ebfbee; color: #37b24d; }
+        .badge-purple { background-color: #f3f0ff; color: #748ffc; }
+        .badge-green-blue { background-color: #e6fcf5; color: #099268; }
+        .badge-purple-blue { background-color: #edf2ff; color: #4263eb; }
+        .badge-red { background-color: #fff5f5; color: #f03e3e; }
+        .badge-blue { background-color: #e7f5ff; color: #1c7ed6; }
 
         ul {
             margin: 8px 0 16px 1.4em;
@@ -451,7 +379,7 @@
             font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
         }
 
-        /* サイバークロックグリッド */
+        /* Wii風設定ボタン調クロックグリッド */
         .clock {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -460,33 +388,32 @@
         }
 
         .clock-box {
-            border: 1px solid rgba(168, 85, 247, 0.25);
-            background: linear-gradient(135deg, rgba(15, 10, 25, 0.7) 0%, rgba(5, 5, 10, 0.9) 100%);
-            border-radius: 6px;
-            padding: 16px 18px;
+            border: 1px solid var(--wii-border);
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 18px 20px;
             font-size: 0.9rem;
             line-height: 1.6;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 
+                0 3px 8px rgba(0, 0, 0, 0.03),
+                inset 0 1px 0 #ffffff;
             position: relative;
-            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .clock-box:hover {
+            border-color: var(--wii-blue);
+            box-shadow: 
+                0 6px 14px rgba(0, 176, 255, 0.1),
+                0 0 6px var(--wii-blue-glow);
         }
 
         .clock-box strong {
-            color: var(--neon-cyan);
+            color: var(--wii-blue);
             display: block;
             margin-bottom: 6px;
-            font-family: 'Share Tech Mono', 'Noto Sans JP', sans-serif;
-            font-size: 1rem;
-            text-shadow: 0 0 6px var(--neon-cyan-glow);
-        }
-
-        .clock-box::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
-            background: var(--neon-purple);
-            box-shadow: 0 0 8px var(--neon-purple-glow);
-            border-radius: 6px 0 0 6px;
+            font-family: 'Comfortaa', 'Noto Sans JP', sans-serif;
+            font-size: 0.98rem;
         }
 
         .footer-nav {
@@ -497,7 +424,7 @@
             flex-wrap: wrap;
         }
 
-        /* 浮遊するジャンプボタン */
+        /* Wiiリモコン操作風のフローティング矢印ジャンプボタン */
         .float-jump {
             position: fixed;
             right: 24px;
@@ -512,35 +439,25 @@
             height: 44px;
             display: grid;
             place-items: center;
-            border-radius: 4px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(10, 10, 15, 0.8);
-            color: #ffffff;
+            border-radius: 50%;
+            border: 2px solid var(--wii-border);
+            background: #ffffff;
+            color: var(--text-color);
             text-decoration: none;
-            box-shadow: 
-                0 4px 15px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            font-family: 'Share Tech Mono', sans-serif;
-            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 1.2rem;
             font-weight: 700;
-            transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            transition: all 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
         }
 
         .jump:hover {
-            background: rgba(168, 85, 247, 0.15);
-            border-color: var(--neon-purple);
+            border-color: var(--wii-blue);
+            color: var(--wii-blue);
             box-shadow: 
-                0 0 15px var(--neon-purple-glow),
-                0 4px 12px rgba(168, 85, 247, 0.3);
+                0 6px 14px rgba(0, 176, 255, 0.15),
+                0 0 6px var(--wii-blue-glow);
             transform: translateY(-2px);
-        }
-
-        @media (max-width: 900px) {
-            .side-decor {
-                display: none; /* スマホやタブレットではサイド装飾を非表示 */
-            }
         }
 
         @media (max-width: 720px) {
@@ -554,47 +471,18 @@
 
             .btn {
                 font-size: 0.78rem;
-                padding: 8px 16px;
-            }
-            
-            .container {
-                margin: 20px auto 60px;
+                padding: 8px 18px;
             }
         }
     </style>
 </head>
 
 <body id="top">
-    <!-- 巨大ネオングロー -->
-    <div class="cyber-glow">
-        <div class="glow-purple"></div>
-        <div class="glow-cyan"></div>
-    </div>
-
-    <!-- ✦ キラキラ星の浮遊アニメーション -->
-    <div class="sparkle-container">
-        <div class="sparkle sparkle-1">✦</div>
-        <div class="sparkle sparkle-2">✦</div>
-        <div class="sparkle sparkle-3">✦</div>
-        <div class="sparkle sparkle-4">✦</div>
-    </div>
-
-    <!-- 左右のサイバーポスター装飾サイドバー（PC時） -->
-    <div class="side-decor side-decor-left">
-        <div class="side-vertical-text">SYS.STATUS // ANALYZED</div>
-        <div class="side-cities">
-            <span>KEY</span>
-            <span>TONALITY</span>
-            <span>COLOR</span>
-            <span>MODE</span>
-        </div>
-        <div>EST.2004</div>
-    </div>
-    
-    <div class="side-decor side-decor-right">
-        <div>DATEL ENG.</div>
-        <div class="side-vertical-text">PITCH SYSTEM // UNDER ANALYSIS</div>
-        <div>✦ ✦ ✦</div>
+    <!-- 浮遊するWii風オーブ -->
+    <div class="wii-orb-container">
+        <div class="wii-orb wii-orb-1"></div>
+        <div class="wii-orb wii-orb-2"></div>
+        <div class="wii-orb wii-orb-3"></div>
     </div>
 
     <div class="container">
@@ -606,7 +494,7 @@
             </div>
         </nav>
 
-        <!-- ヘッダー (Aero Glass二重枠 -> クローム＆ネオン二重枠) -->
+        <!-- ヘッダー (Wii設定パネル枠) -->
         <div class="glass-borders">
             <header class="hero">
                 <h1>音楽的調性における色彩感覚と構造的考察</h1>
@@ -617,7 +505,7 @@
             </header>
         </div>
 
-        <!-- 記事本体 (Aero Glass二重枠 -> クローム＆ネオン二重枠) -->
+        <!-- 記事本体 (Wii設定パネル枠) -->
         <div class="glass-borders">
             <article>
                 <section>
@@ -704,7 +592,9 @@
                         初期音楽教育は C Major に寄りやすく、白鍵7音が基準として定着しやすい。
                         そのため、臨時記号が増える調ほど「非日常」に感じやすくなる。
                     </p>
-                    <div class="memo">印象は生得的なものだけでなく、反復経験で補正される。</div>
+                    <div class="memo">
+                        <div>印象は生得的なものだけでなく、反復経験で補正される。</div>
+                    </div>
                 </section>
 
                 <section>
