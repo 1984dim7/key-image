@@ -47,6 +47,36 @@
             position: relative;
         }
 
+        /* PC環境においてデフォルトカーソルを無効化（Wiiリモコンカーソルを使用するため） */
+        @media (pointer: fine) {
+            body, a, button, [role="button"], input, select, textarea {
+                cursor: none !important;
+            }
+        }
+
+        /* Wiiリモコンポインター（マウスストーカー） */
+        #wii-pointer {
+            position: fixed;
+            width: 44px;
+            height: 44px;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-10px, -8px);
+            display: none;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.15));
+            transition: transform 0.05s ease-out;
+        }
+
+        #wii-pointer img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        #wii-pointer.clicking {
+            transform: translate(-10px, -8px) scale(0.85);
+        }
+
         /* Wiiメニュー風ドットパターン */
         body::before {
             content: '';
@@ -128,7 +158,7 @@
             flex-wrap: wrap;
         }
 
-        /* Wii風角丸ボタン */
+        /* Wii風角丸立体ボタン */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -485,6 +515,11 @@
         <div class="wii-orb wii-orb-3"></div>
     </div>
 
+    <!-- Wiiリモコンカーソル (PC環境のみ動作) -->
+    <div id="wii-pointer">
+        <img src="/images/wii_cursor.png" alt="Wii Pointer">
+    </div>
+
     <div class="container">
         <nav class="top-nav">
             <div class="brand">NOTE / KEY & COLOR</div>
@@ -638,6 +673,29 @@
         <a class="jump" href="#top" title="ページ上へ">↑</a>
         <a class="jump" href="#bottom" title="ページ下へ">↓</a>
     </div>
+
+    <script>
+        // Wiiリモコンポインター（マウスストーカー）の処理
+        const wiiPointer = document.getElementById('wii-pointer');
+        
+        // タッチデバイス以外（マウスが使える環境）のみポインターを表示
+        if (window.matchMedia('(pointer: fine)').matches) {
+            wiiPointer.style.display = 'block';
+            
+            document.addEventListener('mousemove', (e) => {
+                wiiPointer.style.left = e.clientX + 'px';
+                wiiPointer.style.top = e.clientY + 'px';
+            });
+
+            document.addEventListener('mousedown', () => {
+                wiiPointer.classList.add('clicking');
+            });
+
+            document.addEventListener('mouseup', () => {
+                wiiPointer.classList.remove('clicking');
+            });
+        }
+    </script>
 </body>
 
 </html>
